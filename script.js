@@ -3,7 +3,7 @@
 const PRICES = {
   ARS: 80000,
   EUR: 110,
-  MXN: 2500,
+  MXN: 4000,
   USDT: 110
 };
 
