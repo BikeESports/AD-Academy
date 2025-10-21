@@ -193,7 +193,7 @@ function updateCoursePrices(){
   const ACCOUNT_DETAILS = {
     ARS: `
       <strong>Transferencia en pesos (Argentina)</strong><br>
-      Nombre del destinatario: <b>Agustín Dentella</b><br>
+      Nombre del destinatario: <b>Agustin Dentella</b><br>
       Alias: <b>ad.academy</b>
     `,
     EUR: `
@@ -208,7 +208,7 @@ function updateCoursePrices(){
     `,
     MXN: `
       <strong>Transferencia en pesos mexicanos</strong><br>
-      Nombre del destinatario: <b>Agustín Dentella</b><br>
+      Nombre del destinatario: <b>Agustin Dentella</b><br>
       Banco: <b>Arcus</b><br>
       CLABE: <b>706969795295294384</b>
     `
