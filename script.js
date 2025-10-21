@@ -183,13 +183,43 @@ Object.keys(COURSES_DETAILED).forEach(category => {
 function updateCoursePrices(){
   const cur = currencyEl.value;
   const price = PRICES[cur];
+
+  // Actualizar precios
   document.querySelectorAll('[data-price-id]').forEach(el=>{
     el.textContent = formatMoney(price, cur);
   });
 
-  // método de pago sugerido
-  paymentInstructions.textContent = PAYMENT_METHODS[cur] || '';
-  paymentMethodNote.textContent = PAYMENT_METHODS[cur] ? `Método sugerido: ${PAYMENT_METHODS[cur]}` : '';
+  // Datos de cuenta por moneda
+  const ACCOUNT_DETAILS = {
+    ARS: `
+      <strong>Transferencia en pesos (Argentina)</strong><br>
+      Nombre del destinatario: <b>Agustín Dentella</b><br>
+      Alias: <b>ad.academy</b>
+    `,
+    EUR: `
+      <strong>Transferencia en euros</strong><br>
+      Nombre del destinatario: <b>Bridge Building</b><br>
+      IBAN: <b>IE06 MODR 9903 5507 0916 80</b>
+    `,
+    USDT: `
+      <strong>Pago en criptomoneda (USDT)</strong><br>
+      Wallet: <b>0x26d59f7b89edafe11d2ee90a978973b5bfa1c2f8</b><br>
+      Red: <b>Ethereum (ERC20)</b>
+    `,
+    MXN: `
+      <strong>Transferencia en pesos mexicanos</strong><br>
+      Nombre del destinatario: <b>Agustín Dentella</b><br>
+      Banco: <b>Arcus</b><br>
+      CLABE: <b>706969795295294384</b>
+    `
+  };
+
+  // Mostrar método y datos bancarios
+  const method = PAYMENT_METHODS[cur] || '';
+  paymentMethodNote.textContent = method ? `Método sugerido: ${method}` : '';
+  paymentInstructions.innerHTML = method
+    ? `${method}<hr class="my-2">${ACCOUNT_DETAILS[cur] || ''}`
+    : 'Seleccioná moneda para ver método de pago sugerido.';
 }
 
 function calculateTotals(){
