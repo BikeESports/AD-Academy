@@ -91,7 +91,7 @@ const COURSES_DETAILED = {
     "Gallego": ["Conversación","Cultura y vocabulario"],
     "Portugués": ["Conversación","Gramática básica"],
     "Inglés": ["Inglés conversacional","Inglés técnico"],
-    "Frances": ["Conversación","Gramática básica"],
+    "Francés": ["Conversación","Gramática básica"],
     "Italiano": ["Conversación","Pronunciación"],
     "Alemán": ["Niveles A1-B1 (intro)"],
     "Japonés": ["Kana","Introducción al japonés"],
