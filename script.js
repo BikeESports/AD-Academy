@@ -1,10 +1,10 @@
 
 // Datos: precios fijos por curso
 const PRICES = {
-  ARS: 250000,
-  EUR: 220,
-  MXN: 4000,
-  USDT: 130
+  ARS: 80000,
+  EUR: 110,
+  MXN: 2500,
+  USDT: 110
 };
 
 // Métodos de pago sugeridos por moneda
