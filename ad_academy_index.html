@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>AD Academy — Cursos Online</title>
+  <link rel="icon" href="/assets/logo-ad-academy.png" />
+  <style>
+    /* Reset & base */
+    :root{--bg:#ffffff;--fg:#000000;--btn-bg:#000000;--btn-fg:#ffffff}
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); color:var(--fg)}
+    .container{max-width:1100px;margin:28px auto;padding:28px}
+
+    /* Header / logo */
+    header{display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+    header img{max-width:220px;height:auto}
+
+    h1{font-size:20px;margin:8px 0 18px;text-align:center}
+    p.lead{opacity:.85;text-align:center;margin-top:0}
+
+    /* Grid */
+    .grid{display:grid;grid-template-columns:1fr 380px;gap:28px}
+    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+
+    /* Courses list */
+    .card{border:1px solid #eee;padding:18px;border-radius:10px}
+    .courses{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    @media (max-width:700px){.courses{grid-template-columns:1fr}}
+    .course{display:flex;gap:10px;align-items:center;padding:8px;border-radius:6px}
+    .course label{cursor:pointer}
+    .price-tag{margin-left:auto;font-weight:700}
+
+    /* Panel */
+    .panel{position:sticky;top:24px}
+    .select-row{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+    select,input[type=file],input[type=text]{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px}
+
+    /* Buttons */
+    .btn{display:inline-block;padding:10px 14px;border-radius:8px;border:none;background:var(--btn-bg);color:var(--btn-fg);cursor:pointer;font-weight:600}
+    .btn.ghost{background:transparent;color:var(--fg);border:1px solid #000}
+
+    /* Totals */
+    .totals{margin-top:12px;padding:12px;border-radius:8px;background:#fafafa}
+    .line{display:flex;justify-content:space-between;padding:6px 0}
+
+    /* Instructions */
+    .instructions{margin-top:14px;padding:12px;border-radius:8px;background:#f8f8f8}
+
+    footer{margin-top:20px;padding-top:14px;border-top:1px solid #eee;text-align:center}
+
+    /* small */
+    small.muted{color:#666}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="/assets/logo-ad-academy-transparente.png" alt="Logo AD Academy" />
+    </header>
+
+    <h1>AD Academy — Catálogo de cursos</h1>
+    <p class="lead">Seleccioná los cursos que quieras comprar. Precio por curso con certificado incluido. Luego elegí tu moneda y seguí las instrucciones de pago.</p>
+
+    <div class="grid">
+      <main class="card">
+        <h2>Listado de cursos</h2>
+        <div class="courses" id="coursesList">
+          <!-- Cursos insertados por JS -->
+        </div>
+
+        <div style="margin-top:18px">
+          <label for="notes">Notas / Comentarios (opcional)</label>
+          <input id="notes" placeholder="Ej: Nombre para el certificado, horario preferido para clases" />
+        </div>
+
+      </main>
+
+      <aside class="panel card">
+        <h3>Pago y confirmación</h3>
+
+        <div class="select-row">
+          <label for="currency">Moneda:</label>
+          <select id="currency">
+            <option value="ARS">🇦🇷 Pesos argentinos (ARS)</option>
+            <option value="EUR">💶 Euros (EUR)</option>
+            <option value="MXN">🇲🇽 Pesos mexicanos (MXN)</option>
+            <option value="USDT">💵 USDT (Ethereum)</option>
+          </select>
+        </div>
+
+        <div class="totals" id="totalsBox">
+          <div class="line"><div>Subtotal</div><div id="subtotal">0</div></div>
+          <div class="line"><div>Cursos seleccionados</div><div id="count">0</div></div>
+          <hr />
+          <div class="line" style="font-size:18px;font-weight:700"><div>Total</div><div id="total">0</div></div>
+        </div>
+
+        <div class="instructions" id="instructions">
+          <!-- Instrucciones dinámicas -->
+        </div>
+
+        <div style="margin-top:10px">
+          <label>Adjuntá tu comprobante (jpg, png, pdf) o ingresá ID de transacción</label>
+          <input type="file" id="receiptFile" accept="image/*,.pdf" />
+          <input type="text" id="txId" placeholder="ID de transacción (opcional)" style="margin-top:8px" />
+        </div>
+
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn" id="sendProof">Enviar comprobante</button>
+          <button class="btn ghost" id="resetBtn">Reset</button>
+        </div>
+
+        <small class="muted" style="display:block;margin-top:8px">Una vez valides el pago (manualmente), liberarás el acceso y enviarás el enlace de Meet al email del alumno.</small>
+
+        <hr />
+        <div>
+          <strong>Contacto:</strong>
+          <div>officialadacademy@gmail.com</div>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <small>AD Academy — Plataforma minimalista. Todos los precios son por curso e incluyen certificado.</small>
+    </footer>
+  </div>
+
+  <script>
+    // Datos proporcionados por el cliente
+    const PRICES = { ARS:250000, EUR:220, MXN:4000, USDT:130 };
+    const PAYMENT_INFO = {
+      ARS: {
+        title: 'Pago en Pesos Argentinos (ARS)',
+        lines: [
+          'Brubank - Alias: ad.academy',
+          'Titular: Agustín Dentella'
+        ]
+      },
+      EUR: {
+        title: 'Pago en Euros (EUR)',
+        lines: [
+          'Titular: Bridge Building',
+          'IBAN: IE06 MODR 9903 5507 0916 80'
+        ]
+      },
+      MXN: {
+        title: 'Pago en Pesos Mexicanos (MXN)',
+        lines: [
+          'Banco: Arcus',
+          'CLABE: 706969795295294384',
+          'Titular: Agustín Dentella'
+        ]
+      },
+      USDT: {
+        title: 'Pago en USDT (Ethereum)',
+        lines: [
+          'Wallet (Ethereum): 0x26d59f7b89edafe11d2ee90a978973b5bfa1c2f8',
+          'Enviar USDT a la dirección indicada. Adjuntá el hash de la transacción.'
+        ]
+      }
+    };
+
+    // Lista completa de cursos (tomada del pedido del usuario)
+    const COURSES = [
+      // Electricidad y Electrónica
+      'Refrigeración', 'Electricista', 'Mantenimiento de computadoras', 'Mantenimiento de celulares', 'Calefacción',
+      // Mecánica
+      'Mecánica automotriz','Cerrajería automotriz',
+      // Construcción
+      'Carpintería',
+      // Seguridad
+      'Vigilancia y seguridad privada','Supervisor de seguridad',
+      // Programación
+      'Programación','Programación avanzada','ChatGPT','Algoritmos','Programación orientada a objetos','APIs','Desarrollo web para empresarios','JavaScript','Desarrollo web Python y Django','Introducción a la web','CSS3','HTML5','Figma',
+      // Videojuegos
+      'Videojuegos (principiante)','Videojuegos (intermedio)','Videojuegos (avanzado)',
+      // Gestión de proyectos y software
+      'Github','Tester de Software','Pruebas de Software y CI/CD','Viabilidad para proyectos','Gestión de proyectos','Diseño de Software',
+      // Comidas
+      'Cocina profesional','Manipulación de alimentos','Recetas de aderezos','Ensaladas gourmet','Recetas con pescado',
+      // Ingeniería civil
+      'Arquitectura','Topografías','Dibujo técnico','Cambio climático','Hidráulica','Ecología','Derecho ambiental','Maestro de obras','Diseño de redes de gas','Diseño sísmico',
+      // Seguridad informática
+      'Ciberseguridad',
+      // Idiomas (listados as courses)
+      'Español','Gallego','Portugués','Inglés','Francés','Italiano','Alemán','Japonés','Árabe'
+    ];
+
+    // Renderizar cursos
+    const coursesList = document.getElementById('coursesList');
+    COURSES.forEach((c, idx) => {
+      const div = document.createElement('div');
+      div.className = 'course';
+      const id = `course_${idx}`;
+      div.innerHTML = `
+        <input type="checkbox" id="${id}" data-course="${c}" />
+        <label for="${id}">${c}</label>
+        <div class="price-tag" data-price>0</div>
+      `;
+      coursesList.appendChild(div);
+    });
+
+    // Helpers
+    const currencyEl = document.getElementById('currency');
+    const subtotalEl = document.getElementById('subtotal');
+    const totalEl = document.getElementById('total');
+    const countEl = document.getElementById('count');
+    const instructionsEl = document.getElementById('instructions');
+
+    function formatMoney(value, currency){
+      if(currency === 'EUR') return `€ ${value.toLocaleString('de-DE')}`;
+      if(currency === 'USDT') return `USDT ${value}`;
+      if(currency === 'MXN') return `MXN ${value.toLocaleString('es-MX')}`;
+      // ARS
+      return `ARS ${value.toLocaleString('es-AR')}`;
+    }
+
+    function updateCoursePrices(){
+      const cur = currencyEl.value;
+      const price = PRICES[cur];
+      document.querySelectorAll('[data-price]').forEach(el => el.textContent = formatMoney(price, cur));
+    }
+
+    function calculateTotals(){
+      const cur = currencyEl.value;
+      const price = PRICES[cur];
+      const checked = Array.from(document.querySelectorAll('.course input[type=checkbox]')).filter(i=>i.checked);
+      const count = checked.length;
+      const subtotal = price * count;
+      subtotalEl.textContent = formatMoney(subtotal, cur);
+      totalEl.textContent = formatMoney(subtotal, cur);
+      countEl.textContent = count;
+    }
+
+    function updateInstructions(){
+      const cur = currencyEl.value;
+      const info = PAYMENT_INFO[cur];
+      let html = `<strong>${info.title}</strong><br/><div style=\"margin-top:6px\">`;
+      info.lines.forEach(l => { html += `<div>${l}</div>` });
+      html += `</div><div style=\"margin-top:8px\"><em>Adjuntá tu comprobante de pago al enviar. Una vez verificado manualmente, liberaré el acceso y te enviaré el link de Meet al email del alumno.</em></div>`;
+      instructionsEl.innerHTML = html;
+    }
+
+    // Eventos
+    currencyEl.addEventListener('change', ()=>{ updateCoursePrices(); calculateTotals(); updateInstructions(); });
+
+    document.addEventListener('change', (e)=>{
+      if(e.target && e.target.matches('.course input[type=checkbox]')) calculateTotals();
+    });
+
+    // Inicializar
+    updateCoursePrices(); updateInstructions(); calculateTotals();
+
+    // Envío de comprobante (simulado)
+    document.getElementById('sendProof').addEventListener('click', ()=>{
+      const checked = Array.from(document.querySelectorAll('.course input[type=checkbox]')).filter(i=>i.checked);
+      if(checked.length === 0){ alert('Seleccioná al menos un curso antes de enviar el comprobante.'); return; }
+
+      const file = document.getElementById('receiptFile').files[0];
+      const txId = document.getElementById('txId').value.trim();
+      const emailNote = document.getElementById('notes').value.trim();
+
+      if(!file && !txId){
+        if(!confirm('No adjuntaste comprobante ni ID de transacción. ¿Deseás continuar?')) return;
+      }
+
+      // Simulación: generamos un resumen y mostramos que fue "enviado".
+      const selectedCourses = checked.map(i=>i.dataset.course);
+      const currency = currencyEl.value;
+      const price = PRICES[currency];
+      const total = price * selectedCourses.length;
+
+      const summary = {
+        cursos: selectedCourses,
+        cantidad: selectedCourses.length,
+        moneda: currency,
+        total: total,
+        note: emailNote,
+        txId: txId || null,
+        fileName: file ? file.name : null
+      };
+
+      // Aquí deberías: 1) guardar el comprobante en tu backend o bucket, 2) registrar la solicitud en tu base de datos, 3) notificar al profesor.
+      // Como demo local, lo mostramos en pantalla en un modal simple (alert) y reseteamos inputs.
+
+      alert('Comprobante enviado. Resumen:\n' + JSON.stringify(summary, null, 2) + '\n\nRecordá verificarlo manualmente y liberar el acceso cuando corresponda.');
+
+      // Reset parcial
+      document.getElementById('receiptFile').value = '';
+      document.getElementById('txId').value = '';
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
+      document.querySelectorAll('.course input[type=checkbox]').forEach(i=>i.checked=false);
+      calculateTotals();
+    });
+
+  </script>
+</body>
+</html>
