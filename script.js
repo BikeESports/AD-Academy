@@ -1,7 +1,7 @@
 
 // Datos: precios fijos por curso
 const PRICES = {
-  ARS: 60000,
+  ARS: 80000,
   EUR: 110,
   MXN: 4000,
   USDT: 110
