@@ -4,59 +4,263 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>AD Academy — Cursos Online</title>
-  <link rel="icon" href="/main/logo-ad-academy.jpg" />
+  <link rel="icon" href="/main/logo-ad-academy-transparente.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* Reset & base */
-    :root{--bg:#ffffff;--fg:#000000;--btn-bg:#000000;--btn-fg:#ffffff}
-    *{box-sizing:border-box}
-    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; background:var(--bg); color:var(--fg)}
-    .container{max-width:1100px;margin:28px auto;padding:28px}
+    :root {
+      --bg: #ffffff;
+      --fg: #333333;
+      --btn-bg: #000000;
+      --btn-fg: #ffffff;
+      --accent: #f0f0f0;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --border: #e0e0e0;
+      --hover-shadow: rgba(0, 0, 0, 0.15);
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Poppins', Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: var(--bg);
+      color: var(--fg);
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
 
     /* Header / logo */
-    header{display:flex;align-items:center;justify-content:center;margin-bottom:18px}
-    header img{max-width:220px;height:auto}
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 40px;
+      padding-top: 20px;
+    }
+    header img {
+      max-width: 300px;
+      height: auto;
+      transition: transform 0.3s ease;
+    }
+    header img:hover {
+      transform: scale(1.05);
+    }
 
-    h1{font-size:20px;margin:8px 0 18px;text-align:center}
-    p.lead{opacity:.85;text-align:center;margin-top:0}
+    h1 {
+      font-size: 28px;
+      margin: 20px 0 30px;
+      text-align: center;
+      font-weight: 600;
+    }
+    p.lead {
+      opacity: 0.85;
+      text-align: center;
+      margin-top: 0;
+      font-size: 16px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
     /* Grid */
-    .grid{display:grid;grid-template-columns:1fr 380px;gap:28px}
-    @media (max-width:900px){.grid{grid-template-columns:1fr}}
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 40px;
+    }
+    @media (max-width: 1024px) {
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+      }
+    }
 
     /* Courses list */
-    .card{border:1px solid #eee;padding:18px;border-radius:10px}
-    .courses{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    @media (max-width:700px){.courses{grid-template-columns:1fr}}
-    .course{display:flex;gap:10px;align-items:center;padding:8px;border-radius:6px}
-    .course label{cursor:pointer}
-    .price-tag{margin-left:auto;font-weight:700}
+    .card {
+      border: 1px solid var(--border);
+      padding: 24px;
+      border-radius: 12px;
+      background: var(--bg);
+      box-shadow: 0 2px 8px var(--shadow);
+      transition: box-shadow 0.3s ease;
+    }
+    .card:hover {
+      box-shadow: 0 4px 16px var(--hover-shadow);
+    }
+    .category {
+      margin-bottom: 32px;
+    }
+    .category h3 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      font-weight: 600;
+      color: var(--btn-bg);
+    }
+    .courses {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    @media (max-width: 768px) {
+      .courses {
+        grid-template-columns: 1fr;
+      }
+    }
+    .course {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 16px;
+      border-radius: 8px;
+      background: var(--accent);
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    .course:hover {
+      background: #e8e8e8;
+      box-shadow: 0 2px 8px var(--shadow);
+      transform: translateY(-2px);
+    }
+    .course input[type="checkbox"] {
+      accent-color: var(--btn-bg);
+    }
+    .course label {
+      cursor: pointer;
+      flex: 1;
+      font-weight: 500;
+    }
+    .price-tag {
+      margin-left: auto;
+      font-weight: 700;
+      color: var(--btn-bg);
+    }
 
     /* Panel */
-    .panel{position:sticky;top:24px}
-    .select-row{display:flex;gap:8px;align-items:center;margin-bottom:12px}
-    select,input[type=file],input[type=text]{width:100%;padding:10px;border:1px solid #ddd;border-radius:8px}
+    .panel {
+      position: sticky;
+      top: 24px;
+      height: fit-content;
+    }
+    .select-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+    .select-row label {
+      font-weight: 600;
+    }
+    select, input[type="file"], input[type="text"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: inherit;
+      transition: border-color 0.3s ease;
+    }
+    select:focus, input:focus {
+      outline: none;
+      border-color: var(--btn-bg);
+    }
 
     /* Buttons */
-    .btn{display:inline-block;padding:10px 14px;border-radius:8px;border:none;background:var(--btn-bg);color:var(--btn-fg);cursor:pointer;font-weight:600}
-    .btn.ghost{background:transparent;color:var(--fg);border:1px solid #000}
+    .btn {
+      display: inline-block;
+      padding: 12px 20px;
+      border-radius: 8px;
+      border: none;
+      background: var(--btn-bg);
+      color: var(--btn-fg);
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+    .btn:hover {
+      background: #333;
+      transform: translateY(-1px);
+    }
+    .btn.ghost {
+      background: transparent;
+      color: var(--fg);
+      border: 1px solid var(--border);
+    }
+    .btn.ghost:hover {
+      background: var(--accent);
+    }
 
     /* Totals */
-    .totals{margin-top:12px;padding:12px;border-radius:8px;background:#fafafa}
-    .line{display:flex;justify-content:space-between;padding:6px 0}
+    .totals {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 8px;
+      background: var(--accent);
+      border: 1px solid var(--border);
+    }
+    .line {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-weight: 500;
+    }
+    .totals hr {
+      margin: 12px 0;
+      border: none;
+      border-top: 1px solid var(--border);
+    }
 
     /* Instructions */
-    .instructions{margin-top:14px;padding:12px;border-radius:8px;background:#f8f8f8}
+    .instructions {
+      margin-top: 20px;
+      padding: 16px;
+      border-radius: 8px;
+      background: var(--accent);
+      border: 1px solid var(--border);
+    }
 
-    footer{margin-top:20px;padding-top:14px;border-top:1px solid #eee;text-align:center}
+    footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
 
-    /* small */
-    small.muted{color:#666}
+    /* Small */
+    small.muted {
+      color: #666;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px auto;
+        padding: 16px;
+      }
+      header img {
+        max-width: 200px;
+      }
+      h1 {
+        font-size: 24px;
+      }
+      .grid {
+        gap: 20px;
+      }
+      .card {
+        padding: 16px;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <img src="/assets/logo-ad-academy-transparente.png" alt="Logo AD Academy" />
+      <img src="/main/logo-ad-academy.jpg" alt="Logo AD Academy" />
     </header>
 
     <h1>AD Academy — Catálogo de cursos</h1>
@@ -65,11 +269,63 @@
     <div class="grid">
       <main class="card">
         <h2>Listado de cursos</h2>
-        <div class="courses" id="coursesList">
-          <!-- Cursos insertados por JS -->
+
+        <div class="category">
+          <h3>Electricidad y Electrónica</h3>
+          <div class="courses" id="electricidad"></div>
         </div>
 
-        <div style="margin-top:18px">
+        <div class="category">
+          <h3>Mecánica</h3>
+          <div class="courses" id="mecanica"></div>
+        </div>
+
+        <div class="category">
+          <h3>Construcción</h3>
+          <div class="courses" id="construccion"></div>
+        </div>
+
+        <div class="category">
+          <h3>Seguridad</h3>
+          <div class="courses" id="seguridad"></div>
+        </div>
+
+        <div class="category">
+          <h3>Programación</h3>
+          <div class="courses" id="programacion"></div>
+        </div>
+
+        <div class="category">
+          <h3>Desarrollo de videojuegos</h3>
+          <div class="courses" id="videojuegos"></div>
+        </div>
+
+        <div class="category">
+          <h3>Gestión de proyecto y software</h3>
+          <div class="courses" id="gestion"></div>
+        </div>
+
+        <div class="category">
+          <h3>Comidas</h3>
+          <div class="courses" id="comidas"></div>
+        </div>
+
+        <div class="category">
+          <h3>Ingeniería civil</h3>
+          <div class="courses" id="ingenieria"></div>
+        </div>
+
+        <div class="category">
+          <h3>Seguridad informática</h3>
+          <div class="courses" id="ciberseguridad"></div>
+        </div>
+
+        <div class="category">
+          <h3>Idiomas</h3>
+          <div class="courses" id="idiomas"></div>
+        </div>
+
+        <div style="margin-top:24px">
           <label for="notes">Notas / Comentarios (opcional)</label>
           <input id="notes" placeholder="Ej: Nombre para el certificado, horario preferido para clases" />
         </div>
@@ -100,18 +356,18 @@
           <!-- Instrucciones dinámicas -->
         </div>
 
-        <div style="margin-top:10px">
+        <div style="margin-top:16px">
           <label>Adjuntá tu comprobante (jpg, png, pdf) o ingresá ID de transacción</label>
           <input type="file" id="receiptFile" accept="image/*,.pdf" />
           <input type="text" id="txId" placeholder="ID de transacción (opcional)" style="margin-top:8px" />
         </div>
 
-        <div style="margin-top:12px;display:flex;gap:8px">
+        <div style="margin-top:16px;display:flex;gap:8px">
           <button class="btn" id="sendProof">Enviar comprobante</button>
           <button class="btn ghost" id="resetBtn">Reset</button>
         </div>
 
-        <small class="muted" style="display:block;margin-top:8px">Una vez valides el pago (manualmente), liberarás el acceso y enviarás el enlace de Meet al email del alumno.</small>
+        <small class="muted" style="display:block;margin-top:12px">Una vez valides el pago (manualmente), liberarás el acceso y enviarás el enlace de Meet al email del alumno.</small>
 
         <hr />
         <div>
@@ -161,44 +417,36 @@
       }
     };
 
-    // Lista completa de cursos (tomada del pedido del usuario)
-    const COURSES = [
-      // Electricidad y Electrónica
-      'Refrigeración', 'Electricista', 'Mantenimiento de computadoras', 'Mantenimiento de celulares', 'Calefacción',
-      // Mecánica
-      'Mecánica automotriz','Cerrajería automotriz',
-      // Construcción
-      'Carpintería',
-      // Seguridad
-      'Vigilancia y seguridad privada','Supervisor de seguridad',
-      // Programación
-      'Programación','Programación avanzada','ChatGPT','Algoritmos','Programación orientada a objetos','APIs','Desarrollo web para empresarios','JavaScript','Desarrollo web Python y Django','Introducción a la web','CSS3','HTML5','Figma',
-      // Videojuegos
-      'Videojuegos (principiante)','Videojuegos (intermedio)','Videojuegos (avanzado)',
-      // Gestión de proyectos y software
-      'Github','Tester de Software','Pruebas de Software y CI/CD','Viabilidad para proyectos','Gestión de proyectos','Diseño de Software',
-      // Comidas
-      'Cocina profesional','Manipulación de alimentos','Recetas de aderezos','Ensaladas gourmet','Recetas con pescado',
-      // Ingeniería civil
-      'Arquitectura','Topografías','Dibujo técnico','Cambio climático','Hidráulica','Ecología','Derecho ambiental','Maestro de obras','Diseño de redes de gas','Diseño sísmico',
-      // Seguridad informática
-      'Ciberseguridad',
-      // Idiomas (listados as courses)
-      'Español','Gallego','Portugués','Inglés','Francés','Italiano','Alemán','Japonés','Árabe'
-    ];
+    // Cursos organizados por categoría
+    const COURSES_BY_CATEGORY = {
+      'Electricidad y Electrónica': ['Refrigeración', 'Electricista', 'Mantenimiento de computadoras', 'Mantenimiento de celulares', 'Calefacción'],
+      'Mecánica': ['Mecánica automotriz', 'Cerrajería automotriz'],
+      'Construcción': ['Carpintería'],
+      'Seguridad': ['Vigilancia y seguridad privada', 'Supervisor de seguridad'],
+      'Programación': ['Programación', 'Programación avanzada', 'ChatGPT', 'Algoritmos', 'Programación orientada a objetos', 'APIs', 'Desarrollo web para empresarios', 'JavaScript', 'Desarrollo web Python y Django', 'Introducción a la web', 'CSS3', 'HTML5', 'Figma'],
+      'Desarrollo de videojuegos': ['Videojuegos', 'Videojuegos intermedio', 'Videojuegos avanzado'],
+      'Gestión de proyecto y software': ['Github', 'Tester de Software', 'Pruebas de Software y CI/CD', 'Viabilidad para proyectos', 'Gestión de proyectos', 'Diseño de Software'],
+      'Comidas': ['Cocina profesional', 'Manipulación de alimentos', 'Recetas de aderezos', 'Ensaladas gourmet', 'Recetas con pescado'],
+      'Ingeniería civil': ['Arquitectura', 'Topografías', 'Dibujo técnico', 'Cambio climático', 'Hidráulica', 'Ecología', 'Derecho ambiental', 'Maestro de obras', 'Diseño de redes de gas', 'Diseño sísmico'],
+      'Seguridad informática': ['Ciberseguridad'],
+      'Idiomas': ['Español', 'Gallego', 'Portugués', 'Inglés', 'Frances', 'Italiano', 'Alemán', 'Japonés', 'Árabe']
+    };
 
-    // Renderizar cursos
-    const coursesList = document.getElementById('coursesList');
-    COURSES.forEach((c, idx) => {
-      const div = document.createElement('div');
-      div.className = 'course';
-      const id = `course_${idx}`;
-      div.innerHTML = `
-        <input type="checkbox" id="${id}" data-course="${c}" />
-        <label for="${id}">${c}</label>
-        <div class="price-tag" data-price>0</div>
-      `;
-      coursesList.appendChild(div);
+    // Renderizar cursos por categoría
+    let courseIndex = 0;
+    Object.keys(COURSES_BY_CATEGORY).forEach(category => {
+      const container = document.getElementById(category.toLowerCase().replace(/\s+/g, '').replace(/[^a-z]/gi, ''));
+      COURSES_BY_CATEGORY[category].forEach(course => {
+        const div = document.createElement('div');
+        div.className = 'course';
+        const id = `course_${courseIndex++}`;
+        div.innerHTML = `
+          <input type="checkbox" id="${id}" data-course="${course}" />
+          <label for="${id}">${course}</label>
+          <div class="price-tag" data-price>0</div>
+        `;
+        container.appendChild(div);
+      });
     });
 
     // Helpers
@@ -245,57 +493,4 @@
     // Eventos
     currencyEl.addEventListener('change', ()=>{ updateCoursePrices(); calculateTotals(); updateInstructions(); });
 
-    document.addEventListener('change', (e)=>{
-      if(e.target && e.target.matches('.course input[type=checkbox]')) calculateTotals();
-    });
-
-    // Inicializar
-    updateCoursePrices(); updateInstructions(); calculateTotals();
-
-    // Envío de comprobante (simulado)
-    document.getElementById('sendProof').addEventListener('click', ()=>{
-      const checked = Array.from(document.querySelectorAll('.course input[type=checkbox]')).filter(i=>i.checked);
-      if(checked.length === 0){ alert('Seleccioná al menos un curso antes de enviar el comprobante.'); return; }
-
-      const file = document.getElementById('receiptFile').files[0];
-      const txId = document.getElementById('txId').value.trim();
-      const emailNote = document.getElementById('notes').value.trim();
-
-      if(!file && !txId){
-        if(!confirm('No adjuntaste comprobante ni ID de transacción. ¿Deseás continuar?')) return;
-      }
-
-      // Simulación: generamos un resumen y mostramos que fue "enviado".
-      const selectedCourses = checked.map(i=>i.dataset.course);
-      const currency = currencyEl.value;
-      const price = PRICES[currency];
-      const total = price * selectedCourses.length;
-
-      const summary = {
-        cursos: selectedCourses,
-        cantidad: selectedCourses.length,
-        moneda: currency,
-        total: total,
-        note: emailNote,
-        txId: txId || null,
-        fileName: file ? file.name : null
-      };
-
-      // Aquí deberías: 1) guardar el comprobante en tu backend o bucket, 2) registrar la solicitud en tu base de datos, 3) notificar al profesor.
-      // Como demo local, lo mostramos en pantalla en un modal simple (alert) y reseteamos inputs.
-
-      alert('Comprobante enviado. Resumen:\n' + JSON.stringify(summary, null, 2) + '\n\nRecordá verificarlo manualmente y liberar el acceso cuando corresponda.');
-
-      // Reset parcial
-      document.getElementById('receiptFile').value = '';
-      document.getElementById('txId').value = '';
-    });
-
-    document.getElementById('resetBtn').addEventListener('click', ()=>{
-      document.querySelectorAll('.course input[type=checkbox]').forEach(i=>i.checked=false);
-      calculateTotals();
-    });
-
-  </script>
-</body>
-</html>
+    document.addEventListener('change', (e
