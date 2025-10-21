@@ -9,8 +9,8 @@ const PRICES = {
 
 // Métodos de pago sugeridos por moneda
 const PAYMENT_METHODS = {
-  ARS: 'Transferencia bancaria (CBU) - Pesos argentinos',
-  EUR: 'Transferencia SEPA / PayPal - Euros',
+  ARS: 'Transferencia bancaria (Alias) - Pesos argentinos',
+  EUR: 'Transferencia SEPA - Euros',
   MXN: 'Transferencia SPEI / Oxxo Pay - Pesos mexicanos',
   USDT: 'Cripto (USDT) - Red: Ethereum (ERC20)'
 };
