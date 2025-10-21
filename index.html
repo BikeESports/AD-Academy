@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cursos — Catálogo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-white text-gray-900 min-h-screen">
+  <div class="max-w-6xl mx-auto p-6">
+    <header class="mb-6">
+      <h1 class="text-3xl font-bold">Catálogo de Cursos <span class="text-sm ml-2 text-gray-500">(Certificado incluido)</span></h1>
+      <p class="text-gray-600 mt-1">Seleccioná los cursos que quieras y elige la moneda de pago. Los precios son finales por curso.</p>
+    </header>
+
+    <section class="mb-4 flex items-center gap-4">
+      <label class="text-sm font-medium">Moneda:</label>
+      <select id="currency" class="border rounded px-3 py-1">
+        <option value="ARS" selected>🇦🇷 Pesos argentinos (ARS)</option>
+        <option value="EUR">💶 Euros (EUR)</option>
+        <option value="MXN">🇲🇽 Pesos mexicanos (MXN)</option>
+        <option value="USDT">💵 USDT (Ethereum)</option>
+      </select>
+
+      <div id="payment-method-note" class="ml-auto text-sm text-gray-700"></div>
+    </section>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Left: Catalog -->
+      <div class="md:col-span-2 space-y-4">
+        <!-- Categories containers will be injected here -->
+        <div id="electricidadyelectronica" class="card bg-white p-4 rounded shadow-sm"></div>
+        <div id="mecanica" class="card bg-white p-4 rounded shadow-sm"></div>
+        <div id="construccion" class="card bg-white p-4 rounded shadow-sm"></div>
+        <div id="seguridad" class="card bg-white p-4 rounded shadow-sm"></div>
+        <div id="programacion" class="card bg-white p-4 rounded shadow-sm"></div>
+        <div id="desarrollodevideojuegos" class="card bg-white p-4 rounded shadow-sm"></div>
+        <div id="gestiondeproyectoysoftware" class="card bg-white p-4 rounded shadow-sm"></div>
+        <div id="comidas" class="card bg-white p-4 rounded shadow-sm"></div>
+        <div id="ingenieriacivil" class="card bg-white p-4 rounded shadow-sm"></div>
+        <div id="seguridadinformatica" class="card bg-white p-4 rounded shadow-sm"></div>
+        <div id="idiomas" class="card bg-white p-4 rounded shadow-sm"></div>
+      </div>
+
+      <!-- Right: Cart / Totals -->
+      <aside class="bg-white p-4 rounded shadow-sm">
+        <h2 class="font-semibold mb-2">Resumen</h2>
+        <div class="text-sm text-gray-600 mb-2">Cursos seleccionados: <span id="count">0</span></div>
+        <div class="text-sm text-gray-600 mb-2">Subtotal: <span id="subtotal">ARS 0</span></div>
+        <div class="text-lg font-bold mb-4">Total: <span id="total">ARS 0</span></div>
+        <div class="text-xs text-gray-500 mb-4">Todos los precios incluyen certificado.</div>
+
+        <div class="space-y-2">
+          <label class="block text-sm font-medium">Método de pago / instrucciones</label>
+          <div id="payment-instructions" class="text-sm text-gray-700 p-3 bg-gray-50 rounded">
+            Seleccioná moneda para ver método de pago sugerido.
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <label class="block text-sm font-medium mb-1">Enviar comprobante (opcional)</label>
+          <input id="receipt" type="file" class="block w-full text-sm" />
+        </div>
+
+        <button id="checkout" class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Finalizar compra</button>
+      </aside>
+    </div>
+
+    <footer class="mt-8 text-xs text-gray-500">
+      Precios finales por curso (con certificado incluido): ARS 250.000 · €220 · MXN 4.000 · USDT 130.
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
