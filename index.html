@@ -24,7 +24,11 @@
         </h1>
         <p class="text-gray-600 mt-1">
           Seleccioná los cursos que quieras y elegí la moneda de pago.
+        </p>
+      </div>
+    </header>
 
+    <!-- Selector de moneda -->
     <section class="mb-4 flex items-center gap-4">
       <label class="text-sm font-medium">Moneda:</label>
       <select id="currency" class="border rounded px-3 py-1">
@@ -38,9 +42,9 @@
     </section>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Left: Catalog -->
+      <!-- Left: Catálogo -->
       <div class="md:col-span-2 space-y-4">
-        <!-- Categories containers will be injected here -->
+        <!-- Categorías se insertan dinámicamente con script.js -->
         <div id="electricidadyelectronica" class="card bg-white p-4 rounded shadow-sm"></div>
         <div id="mecanica" class="card bg-white p-4 rounded shadow-sm"></div>
         <div id="construccion" class="card bg-white p-4 rounded shadow-sm"></div>
@@ -54,7 +58,7 @@
         <div id="idiomas" class="card bg-white p-4 rounded shadow-sm"></div>
       </div>
 
-      <!-- Right: Cart / Totals -->
+      <!-- Right: Resumen y formulario -->
       <aside class="bg-white p-4 rounded shadow-sm">
         <h2 class="font-semibold mb-2">Resumen</h2>
         <div class="text-sm text-gray-600 mb-2">Cursos seleccionados: <span id="count">0</span></div>
@@ -69,12 +73,35 @@
           </div>
         </div>
 
-        <div class="mt-4">
-          <label class="block text-sm font-medium mb-1">Enviar comprobante (opcional)</label>
-          <input id="receipt" type="file" class="block w-full text-sm" />
-        </div>
+        <hr class="my-6">
 
-        <button id="checkout" class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Finalizar compra</button>
+        <h2 class="font-semibold mb-2">Enviar comprobante</h2>
+        <form id="emailForm" class="space-y-3">
+          <div>
+            <label class="block text-sm font-medium">Nombre completo</label>
+            <input type="text" id="fullName" name="fullName" class="border rounded w-full px-3 py-1" required>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium">Correo electrónico</label>
+            <input type="email" id="email" name="email" class="border rounded w-full px-3 py-1" required>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium">Adjuntar comprobante</label>
+            <input type="file" id="file" name="file" class="block w-full text-sm" required>
+          </div>
+
+          <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
+            Enviar comprobante
+          </button>
+        </form>
+
+        <p id="resultMessage" class="text-sm mt-2 text-gray-700"></p>
+
+        <button id="checkout" class="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+          Finalizar compra
+        </button>
       </aside>
     </div>
 
@@ -83,6 +110,47 @@
     </footer>
   </div>
 
+  <!-- Script principal -->
   <script src="script.js"></script>
+
+  <!-- Librería de EmailJS -->
+  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+  <script>
+    (function() {
+      emailjs.init("lmSxxroDO03u1i31A"); // Public Key
+    })();
+
+    document.getElementById("emailForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const form = e.target;
+      const result = document.getElementById("resultMessage");
+
+      const formData = {
+        fullName: form.fullName.value,
+        email: form.email.value,
+      };
+
+      const file = form.file.files[0];
+      if (!file) return alert("Por favor, adjuntá tu comprobante.");
+
+      const reader = new FileReader();
+      reader.onload = function() {
+        formData.file = reader.result;
+
+        emailjs.send("service_xtvyctg", "template_pe5oh9j", formData)
+          .then(function() {
+            result.textContent = "✅ Comprobante enviado correctamente. ¡Gracias!";
+            result.className = "text-green-600 mt-2 text-sm";
+            form.reset();
+          }, function(error) {
+            console.error(error);
+            result.textContent = "❌ Error al enviar el comprobante. Intentá nuevamente.";
+            result.className = "text-red-600 mt-2 text-sm";
+          });
+      };
+      reader.readAsDataURL(file);
+    });
+  </script>
 </body>
 </html>
