@@ -194,7 +194,7 @@ function updateCoursePrices(){
     ARS: `
       <strong>Transferencia en pesos (Argentina)</strong><br>
       Nombre del destinatario: <b>Agustin Dentella</b><br>
-      Alias: <b>ad.academy</b>
+      Alias: <b>agusdente</b>
     `,
     EUR: `
       <strong>Transferencia en euros</strong><br>
